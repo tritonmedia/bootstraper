@@ -83,7 +83,7 @@ func (r *Renderer) Render(ctx context.Context, log *logrus.Entry) error {
 	return r.GenerateFiles(ctx, entries)
 }
 
-/// GenerateFiles generates files based on a TemplateList being provided.
+// GenerateFiles generates files based on a TemplateList being provided.
 func (r *Renderer) GenerateFiles(ctx context.Context, list *TemplateList) error {
 	// Build the default set of parameters
 	args := map[string]interface{}{

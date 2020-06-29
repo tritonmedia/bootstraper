@@ -132,6 +132,7 @@ func main() {
 				}
 
 				templatePath := filepath.Join(cwd, "pkg/codegen/templates")
+				filesYaml := filepath.Join(templatePath, "files.yaml.tpl")
 
 				if _, err := os.Stat(templatePath); os.IsNotExist(err) {
 					return errors.Wrap(err, "must be run in root of bootstraper repository")
@@ -143,6 +144,14 @@ func main() {
 					Templates: make(map[string]*codegen.Template),
 				}
 
+				// attempt to read in the current, existing, files.yaml
+				if b, err := ioutil.ReadFile(filesYaml); err == nil {
+					if err := yaml.Unmarshal(b, &tl); err != nil {
+						return errors.Wrap(err, "failed to parse existing files.yaml")
+					}
+				}
+
+				// TODO(jaredallard): eventually support removing files.
 				err = filepath.Walk(templatePath, func(path string, info os.FileInfo, err error) error {
 					if err != nil {
 						return err
@@ -168,8 +177,11 @@ func main() {
 						return nil
 					}
 
-					tl.Templates[strings.TrimSuffix(path, ".tpl")] = &codegen.Template{
-						Source: path,
+					writePath := strings.TrimSuffix(path, ".tpl")
+					if _, ok := tl.Templates[writePath]; !ok {
+						tl.Templates[writePath] = &codegen.Template{
+							Source: path,
+						}
 					}
 
 					return nil
@@ -183,12 +195,12 @@ func main() {
 					return err
 				}
 
-				err = ioutil.WriteFile(filepath.Join(templatePath, "files.yaml.tpl"), b, 0644)
+				err = ioutil.WriteFile(filesYaml, b, 0644)
 				if err != nil {
 					return err
 				}
 
-				log.Infof("generated files.yaml.tpl at %s", filepath.Join(templatePath, "files.yaml.tpl"))
+				log.Infof("generated files.yaml.tpl at %s", filesYaml)
 				return nil
 			},
 		},

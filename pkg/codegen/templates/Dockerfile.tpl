@@ -1,7 +1,9 @@
 # syntax=docker/dockerfile:1.0-experimental
-FROM alpine:3.12 as builder
+FROM golang:1.14-alpine as builder
 ARG VERSION
 WORKDIR /src
+
+RUN apk add --no-cache make bash
 
 # Add go.mod and go.sum first to maximize caching
 COPY ./go.mod ./go.sum ./

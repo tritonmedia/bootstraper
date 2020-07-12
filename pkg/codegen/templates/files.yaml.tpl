@@ -20,9 +20,6 @@ files:
     cmd/{{ .manifest.Name }}/{{ .manifest.Name }}.go:
         templatePath: cmd/main/main.go.tpl
         static: false
-    cmd/main/main.go:
-        templatePath: cmd/main/main.go.tpl
-        static: false
     docker-compose.yaml:
         templatePath: docker-compose.yaml.tpl
         static: false
@@ -32,11 +29,11 @@ files:
     go.sum:
         templatePath: go.sum.tpl
         static: true
-    {{- if eq .manifest.Type "JobProcessor" }}
+    # {{- if eq .manifest.Type "JobProcessor" }}
     internal/converter/consumer.go:
         templatePath: internal/converter/consumer.go.tpl
         static: false
-    {{- end }}
+    # {{- end }}
     scripts/gobin.sh:
         templatePath: scripts/gobin.sh.tpl
         static: false
@@ -49,3 +46,9 @@ files:
     scripts/test.sh:
         templatePath: scripts/test.sh.tpl
         static: false
+    .ci/docker-builder.sh:
+        templatePath: .ci/docker-builder.sh.tpl
+    .github/workflows/build.yaml:
+        templatePath: .github/workflows/build.yaml.tpl
+    .vscode/settings.json:
+        templatePath: .vscode/settings.json.tpl

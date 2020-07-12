@@ -162,21 +162,21 @@ func (r *Renderer) WriteTemplate(ctx context.Context, filePath string, contents 
 					blockName := matches[3]
 
 					if curBlockName != "" {
-						r.log.Fatal("Invalid StartBlock when already inside of a block, at %s:%d", filePath, i)
+						r.log.Fatalf("Invalid StartBlock when already inside of a block, at %s:%d", filePath, i)
 					}
 					curBlockName = blockName
 				case "EndBlock":
 					blockName := matches[3]
 
 					if blockName != curBlockName {
-						r.log.Fatal(
+						r.log.Fatalf(
 							"Invalid EndBlock, found EndBlock with name '%s' while inside of block with name '%s', at %s:%d",
 							blockName, curBlockName, filePath, i,
 						)
 					}
 
 					if curBlockName == "" {
-						r.log.Fatal("Invalid EndBlock when not inside of a block, at %s:%d", filePath, i)
+						r.log.Fatalf("Invalid EndBlock when not inside of a block, at %s:%d", filePath, i)
 					}
 
 					curBlockName = ""

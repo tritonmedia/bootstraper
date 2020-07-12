@@ -30,10 +30,10 @@ package="$1"
 shift
 
 # Look up versions inside of .tool-versions
-if ! grep "@" <<< "$package" >/dev/null 2>&1; then
+if ! grep "@" <<<"$package" >/dev/null 2>&1; then
   if [[ -e "$DIR/../.tool-versions" ]]; then
     version=$(grep "$package" "$DIR/../.tool-versions" | awk '{ print $2 }')
-    if [[ -n "$version" ]]; then
+    if [[ -n $version ]]; then
       package="$package@$version"
     fi
   fi

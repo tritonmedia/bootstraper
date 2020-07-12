@@ -26,7 +26,7 @@ type ServiceManifest struct {
 	Type ServiceType `yaml:"type"`
 
 	// Arguments is a map of arbitrary arguments to pass to the generator
-	Arguments map[string]interface{}
+	Arguments map[string]interface{} `yaml:"arguments"`
 }
 
 type Template struct {
@@ -34,5 +34,5 @@ type Template struct {
 	Source string `yaml:"templatePath"`
 
 	// Static determines if this template should be written only once.
-	Static bool `yaml:"static"`
+	Static bool `yaml:"static,omitempty"`
 }

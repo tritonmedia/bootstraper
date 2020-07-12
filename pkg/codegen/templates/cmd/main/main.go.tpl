@@ -25,7 +25,9 @@ func main() {
 	}
 	app.Action = func(c *cli.Context) error {
 		r := service.NewServiceRunner(ctx, []service.Service{
+			// {{- if eq .manifest.Type "JobProcessor" }}
 			&converter.ConsumerService{},
+			// {{- end }}
 		})
 		sigC := make(chan os.Signal)
 

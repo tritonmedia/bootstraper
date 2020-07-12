@@ -39,7 +39,11 @@ if ! grep "@" <<<"$package" >/dev/null 2>&1; then
 		version=$(grep "$package" "$DIR/../.tool-versions" | awk '{ print $2 }')
 		if [[ -n $version ]]; then
 			package="$package@$version"
+		else
+			error "failed to find version of tool $package"
 		fi
+	else
+		error "no .tool-versions, will use the latest versions of every tool"
 	fi
 fi
 

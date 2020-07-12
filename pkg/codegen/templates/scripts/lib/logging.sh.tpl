@@ -5,5 +5,5 @@ info() {
 }
 
 error() {
-	echo -e "\033[31mError:\033[0m $*"
+	echo -e "\033[31mError:\033[0m $*" >&2
 }

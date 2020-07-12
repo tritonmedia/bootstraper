@@ -1,6 +1,15 @@
 files:
+    .editorconfig:
+        templatePath: .editorconfig.tpl
+        static: false
+    .gitattributes:
+        templatePath: .gitattributes.tpl
+        static: false
     .gitignore:
         templatePath: .gitignore.tpl
+        static: false
+    .tool-versions:
+        templatePath: .tool-versions.tpl
         static: false
     Dockerfile:
         templatePath: Dockerfile.tpl
@@ -9,6 +18,9 @@ files:
         templatePath: Makefile.tpl
         static: false
     cmd/{{ .manifest.Name }}/{{ .manifest.Name }}.go:
+        templatePath: cmd/main/main.go.tpl
+        static: false
+    cmd/main/main.go:
         templatePath: cmd/main/main.go.tpl
         static: false
     docker-compose.yaml:
@@ -20,9 +32,11 @@ files:
     go.sum:
         templatePath: go.sum.tpl
         static: true
+    {{- if eq .manifest.Type "JobProcessor" }}
     internal/converter/consumer.go:
         templatePath: internal/converter/consumer.go.tpl
         static: false
+    {{- end }}
     scripts/gobin.sh:
         templatePath: scripts/gobin.sh.tpl
         static: false

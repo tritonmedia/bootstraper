@@ -14,10 +14,10 @@ jobs:
         id: go-dep-cache
         with:
           path: /home/worker/go/pkg
-          key: v1-${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          key: v1-${{ "{{" }} runner.os {{ "}}" }}-go-${{ "{{" }} hashFiles('**/go.sum') {{ "}}" }}
           restore-keys: |
-            v1-${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-            v1-${{ runner.os }}-go-
+            v1-${{ "{{" }} runner.os {{ "}}" }}-go-${{ "{{" }} hashFiles('**/go.sum') {{ "}}" }}
+            v1-${{ "{{" }} runner.os {{ "}}" }}-go-
       - name: Download Dependencies
         run: make dep
       - name: Run Tests
@@ -36,11 +36,11 @@ jobs:
         id: buildx-cache
         with:
           path: /tmp/.buildx-cache
-          key: v1-${{ runner.os }}-buildx-${{ hashFiles('**/Dockerfile') }}
+          key: v1-${{ "{{" }} runner.os {{ "}}" }}-buildx-${{ "{{" }} hashFiles('**/Dockerfile') {{ "}}" }}
           restore-keys: |
-            v1-${{ runner.os }}-buildx-${{ hashFiles('**/Dockerfile') }}
-            v1-${{ runner.os }}-buildx-
+            v1-${{ "{{" }} runner.os {{ "}}" }}-buildx-${{ "{{" }} hashFiles('**/Dockerfile') {{ "}}" }}
+            v1-${{ "{{" }} runner.os {{ "}}" }}-buildx-
       - name: Build and Push Docker Container
         env:
-          IMAGE_PUSH_SECRET: ${{ secrets.DOCKER_IMAGE_PUSH }}
+          IMAGE_PUSH_SECRET: ${{ "{{" }} secrets.DOCKER_IMAGE_PUSH {{ "}}" }}
         run: .ci/docker-builder.sh

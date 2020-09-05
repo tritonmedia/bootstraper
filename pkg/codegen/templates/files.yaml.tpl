@@ -1,54 +1,72 @@
 files:
+    .ci/docker-builder.sh:
+        templatePath: .ci/docker-builder.sh.tpl
     .editorconfig:
         templatePath: .editorconfig.tpl
-        static: false
     .gitattributes:
         templatePath: .gitattributes.tpl
-        static: false
+    .github/workflows/build.yaml:
+        templatePath: .github/workflows/build.yaml.tpl
     .gitignore:
         templatePath: .gitignore.tpl
-        static: false
+    .golangci.yml:
+        templatePath: .golangci.yml.tpl
     .tool-versions:
         templatePath: .tool-versions.tpl
-        static: false
+    .vscode/extensions.json:
+        templatePath: .vscode/extensions.json.tpl
+    .vscode/settings.json:
+        templatePath: .vscode/settings.json.tpl
     Dockerfile:
         templatePath: Dockerfile.tpl
-        static: false
     Makefile:
         templatePath: Makefile.tpl
-        static: false
     cmd/{{ .manifest.Name }}/{{ .manifest.Name }}.go:
         templatePath: cmd/main/main.go.tpl
-        static: false
     docker-compose.yaml:
         templatePath: docker-compose.yaml.tpl
-        static: false
     go.mod:
         templatePath: go.mod.tpl
         static: true
     go.sum:
         templatePath: go.sum.tpl
         static: true
-    # {{- if eq .manifest.Type "JobProcessor" }}
-    internal/converter/consumer.go:
-        templatePath: internal/converter/consumer.go.tpl
-        static: false
-    # {{- end }}
+    {{- if eq .manifest.Type "JobProcessor" }}
+    internal/{{ .manifest.Name }}/consumer.go:
+        templatePath: internal/consumer/consumer.go.tpl
+    {{- end }}
+    {{- if eq .manifest.Type "GRPC" }}
+    internal/{{ .manifest.Name }}/grpc.go:
+        templatePath: internal/grpc/grpc.go.tpl
+    internal/{{ .manifest.Name }}/grpc_server.go:
+        templatePath: internal/grpc/grpc_server.go.tpl
+    {{- end }}
+    renovate.json:
+        templatePath: renovate.json.tpl
     scripts/gobin.sh:
         templatePath: scripts/gobin.sh.tpl
-        static: false
+    scripts/goimports.sh:
+        templatePath: scripts/goimports.sh.tpl
+    scripts/golangci-lint.sh:
+        templatePath: scripts/golangci-lint.sh.tpl
     scripts/lib/logging.sh:
         templatePath: scripts/lib/logging.sh.tpl
-        static: false
     scripts/make-log-wrapper.sh:
         templatePath: scripts/make-log-wrapper.sh.tpl
-        static: false
+
+    # protoc stuff, for GRPC services
+    {{- if eq .manifest.Type "GRPC" }}
+    scripts/protoc-gen-go-grpc.sh:
+        templatePath: scripts/protoc-gen-go-grpc.sh.tpl
+    scripts/protoc-gen-go.sh:
+        templatePath: scripts/protoc-gen-go.sh.tpl
+    scripts/protoc.sh:
+        templatePath: scripts/protoc.sh.tpl
+    {{- end }}
+
+    scripts/shellcheck.sh:
+        templatePath: scripts/shellcheck.sh.tpl
+    scripts/shfmt.sh:
+        templatePath: scripts/shfmt.sh.tpl
     scripts/test.sh:
         templatePath: scripts/test.sh.tpl
-        static: false
-    .ci/docker-builder.sh:
-        templatePath: .ci/docker-builder.sh.tpl
-    .github/workflows/build.yaml:
-        templatePath: .github/workflows/build.yaml.tpl
-    .vscode/settings.json:
-        templatePath: .vscode/settings.json.tpl

@@ -14,7 +14,7 @@ BINDIR         := $(CURDIR)/bin
 PKGDIR         := github.com/tritonmedia/{{ .manifest.Name }}
 CGO_ENABLED    := 1
 BENCH_FLAGS    := "-bench=Bench $(BENCH_FLAGS)"
-TEST_TAGS      ?= tm_teste
+TEST_TAGS      ?= tm_test
 LOG            := "$(CURDIR)/scripts/make-log-wrapper.sh"
 
 .PHONY: default
@@ -24,16 +24,11 @@ default: build
 version:
 	@echo $(APP_VERSION)
 
-.PHONY: release
-release:
-	@$(LOG) info "Building official release"
-	./scripts/gobin.sh github.com/goreleaser/goreleaser
-
 .PHONY: pre-commit
 pre-commit: fmt
 
 .PHONY: build
-build: gogenerate gobuild
+build: gobuild
 
 .PHONY: test
 test:
@@ -55,11 +50,6 @@ gobuild:
 	@mkdir -p $(BINDIR)
 	CGO_ENABLED=$(CGO_ENABLED) "$(GO)" build -o "$(BINDIR)/" -ldflags "$(LDFLAGS)" $(GO_EXTRA_FLAGS) "$(PKGDIR)/..."
 
-.PHONY: docker-build-init
-docker-build-init:
-	docker buildx create --use
-	docker run --rm --privileged docker/binfmt:66f9012c56a8316f9244ffd7622d7c21c1f6f28d
-
 .PHONY: docker-build-push
 docker-build-push:
 	@$(LOG) info "Building and push docker image"
@@ -72,3 +62,8 @@ fmt:
 	@$(LOG) info "Running shfmt"
 	./scripts/gobin.sh mvdan.cc/sh/v3/cmd/shfmt -l -w -s .
 
+{{- if eq .manifest.Type "GRPC" }}
+.PHONY: grpcui
+grpcui:
+	./scripts/gobin.sh github.com/fullstorydev/grpcui/cmd/grpcui -plaintext 127.0.0.1:8000
+{{- end }}

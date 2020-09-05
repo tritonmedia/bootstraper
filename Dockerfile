@@ -15,9 +15,9 @@ COPY . .
 RUN make build APP_VERSION=${VERSION}
 
 FROM alpine:3.12
-ENTRYPOINT ["/usr/bin/{{ .manifest.Name }}"]
+ENTRYPOINT ["/usr/bin/bootstraper"]
 
 # hadolint ignore=DL3018
 RUN apk add --no-cache ca-certificates
 
-COPY --from=builder /src/bin/{{ .manifest.Name }} /usr/bin/{{ .manifest.Name }}
+COPY --from=builder /src/bin/bootstraper /usr/bin/bootstraper

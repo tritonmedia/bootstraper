@@ -1,4 +1,4 @@
-package converter
+package {{ .manifest.Name }}
 
 import (
 	"context"

@@ -9,10 +9,12 @@ import (
 	"syscall"
 
 	"github.com/sirupsen/logrus"
-	"github.com/tritonmedia/{{ .manifest.Name }}/internal/converter"
 	"github.com/tritonmedia/pkg/app"
 	"github.com/tritonmedia/pkg/service"
 	"github.com/urfave/cli/v2"
+
+	"github.com/tritonmedia/{{ .manifest.Name }}/internal/converter"
+	"github.com/tritonmedia/{{ .manifest.Name }}/internal/api"
 )
 
 func main() {
@@ -25,9 +27,11 @@ func main() {
 	}
 	app.Action = func(c *cli.Context) error {
 		r := service.NewServiceRunner(ctx, []service.Service{
-			// {{- if eq .manifest.Type "JobProcessor" }}
-			&converter.ConsumerService{},
-			// {{- end }}
+			{{- if eq .manifest.Type "JobProcessor" }}
+			&{{ .manifest.Name }}.ConsumerService{},
+			{{- else if eq .manifest.Type "GRPC" }}
+			api.NewGRPCService(),
+			{{- end }}
 		})
 		sigC := make(chan os.Signal)
 

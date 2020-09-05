@@ -6,7 +6,4 @@ services:
       - 4222:4222
       - 8222:8222
   ###StartBlock(deps)
-  {{- if .deps }}
-{{ .deps }}
-  {{- end }}
   ###EndBlock(deps)

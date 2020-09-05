@@ -21,10 +21,10 @@ jobs:
         id: go-dep-cache
         with:
           path: /home/worker/go/pkg
-          key: v1-${{ "{{" }} runner.os {{ "}}" }}-go-${{ "{{" }} hashFiles('**/go.sum') {{ "}}" }}
+          key: v1-${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: |
-            v1-${{ "{{" }} runner.os {{ "}}" }}-go-${{ "{{" }} hashFiles('**/go.sum') {{ "}}" }}
-            v1-${{ "{{" }} runner.os {{ "}}" }}-go-
+            v1-${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+            v1-${{ runner.os }}-go-
       - name: Download Dependencies
         run: make dep
       - name: Run Tests
@@ -43,19 +43,19 @@ jobs:
         id: buildx-cache
         with:
           path: /tmp/.buildx-cache
-          key: v1-${{ "{{" }} runner.os {{ "}}" }}-buildx-${{ "{{" }} hashFiles('**/Dockerfile') {{ "}}" }}
+          key: v1-${{ runner.os }}-buildx-${{ hashFiles('**/Dockerfile') }}
           restore-keys: |
-            v1-${{ "{{" }} runner.os {{ "}}" }}-buildx-${{ "{{" }} hashFiles('**/Dockerfile') {{ "}}" }}
-            v1-${{ "{{" }} runner.os {{ "}}" }}-buildx-
+            v1-${{ runner.os }}-buildx-${{ hashFiles('**/Dockerfile') }}
+            v1-${{ runner.os }}-buildx-
       - name: Build and Push Docker Container
         env:
-          IMAGE_PUSH_SECRET: ${{ "{{" }} secrets.DOCKER_IMAGE_PUSH {{ "}}" }}
+          IMAGE_PUSH_SECRET: ${{ secrets.DOCKER_IMAGE_PUSH }}
         run: .ci/docker-builder.sh
       - name: Notify of Preview Image
         if: github.event_name == 'pull_request' && env.PREVIEW_IMAGE != ''
         uses: unsplash/comment-on-pr@master
         env:
-          GITHUB_TOKEN: ${{ "{{" }} secrets.GITHUB_TOKEN {{ "}}" }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          msg: "Preview image is available as: `${{ "{{" }} env.PREVIEW_IMAGE {{ "}}" }}`"
+          msg: "Preview image is available as: `${{ env.PREVIEW_IMAGE }}`"
           check_for_duplicate_msg: true

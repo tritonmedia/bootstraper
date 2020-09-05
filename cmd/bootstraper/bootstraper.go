@@ -13,15 +13,19 @@ import (
 	"github.com/go-git/go-git/v5/storage/memory"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
-	"github.com/tritonmedia/bootstraper/pkg/codegen"
 	"github.com/urfave/cli/v2"
 	"gopkg.in/yaml.v3"
+
+	"github.com/tritonmedia/bootstraper/pkg/codegen"
 )
 
+// Why: Refactor later.
+//nolint:funlen,gocyclo
 func main() {
 	ctx := context.Background()
 	log := logrus.New().WithContext(ctx)
 
+	//nolint:gocritic
 	app := cli.App{
 		Version: "1.0.0",
 		Name:    "bootstraper",
@@ -114,7 +118,7 @@ func main() {
 					return err
 				}
 
-				err = ioutil.WriteFile(filepath.Join(cwd, "service.yaml"), b, 0644)
+				err = ioutil.WriteFile(filepath.Join(cwd, "service.yaml"), b, 0600)
 				if err != nil {
 					return err
 				}
@@ -134,6 +138,8 @@ func main() {
 				templatePath := filepath.Join(cwd, "pkg/codegen/templates")
 				filesYaml := filepath.Join(templatePath, "files.yaml.tpl")
 
+				// Why: We're fine shadowing err.
+				//nolint:govet
 				if _, err := os.Stat(templatePath); os.IsNotExist(err) {
 					return errors.Wrap(err, "must be run in root of bootstraper repository")
 				} else if err != nil {
@@ -145,6 +151,8 @@ func main() {
 				}
 
 				// attempt to read in the current, existing, files.yaml
+				// Why: We're fine shadowing err.
+				//nolint:govet
 				if b, err := ioutil.ReadFile(filesYaml); err == nil {
 					if err := yaml.Unmarshal(b, &tl); err != nil {
 						return errors.Wrap(err, "failed to parse existing files.yaml")
@@ -195,7 +203,7 @@ func main() {
 					return err
 				}
 
-				err = ioutil.WriteFile(filesYaml, b, 0644)
+				err = ioutil.WriteFile(filesYaml, b, 0600)
 				if err != nil {
 					return err
 				}

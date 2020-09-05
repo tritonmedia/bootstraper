@@ -23,6 +23,7 @@ linters-settings:
       - whyNoLint
       - wrapperFunc
       - commentFormatting # Breaks bootstraper
+      - filepathJoin # why?
   gocyclo:
     min-complexity: 15
   goimports:

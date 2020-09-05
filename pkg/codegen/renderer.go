@@ -24,7 +24,7 @@ import (
 )
 
 var (
-	blockRX = regexp.MustCompile(`[\w]*(///|###)\s*([a-zA-Z]+)\(([a-zA-Z]+)\)`)
+	blockRX = regexp.MustCompile(`\w*(///|###)\s*([a-zA-Z]+)\(([a-zA-Z]+)\)`)
 )
 
 type Renderer struct {
@@ -132,7 +132,7 @@ func (r *Renderer) FetchTemplate(ctx context.Context, filePath string) ([]byte, 
 }
 
 // WriteTemplate handles the processing, and writing of a template to disk.
-func (r *Renderer) WriteTemplate(ctx context.Context, filePath string, contents []byte, args map[string]interface{}) error {
+func (r *Renderer) WriteTemplate(ctx context.Context, filePath string, contents []byte, args map[string]interface{}) error { //nolint:funlen,gocyclo,lll
 	// Search for any commands that are inscribed in the file.
 	// Currently we use StartBlock and EndBlock to allow for
 	// arbitrary data payloads to be saved across runs of bootstraper.
@@ -201,7 +201,6 @@ func (r *Renderer) WriteTemplate(ctx context.Context, filePath string, contents 
 			} else {
 				args[curBlockName] = line
 			}
-
 		}
 	}
 
@@ -213,6 +212,9 @@ func (r *Renderer) WriteTemplate(ctx context.Context, filePath string, contents 
 	absFilePath := filepath.Join(r.dir, filePath)
 
 	action := "Updated"
+
+	// Why: We're fine shadowing err.
+	//nolint:govet
 	if _, err := os.Stat(absFilePath); os.IsNotExist(err) {
 		action = "Created"
 	}
@@ -244,6 +246,8 @@ func (r *Renderer) execTemplate(fileName string, body []byte, args map[string]in
 	}
 
 	var buf bytes.Buffer
+	// Why: We're fine shadowing err.
+	//nolint:govet
 	if err := tmpl.Execute(&buf, args); err != nil {
 		return []byte{}, errors.Wrap(err, "failed to render template")
 	}

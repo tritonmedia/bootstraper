@@ -53,12 +53,17 @@ files:
         templatePath: scripts/lib/logging.sh.tpl
     scripts/make-log-wrapper.sh:
         templatePath: scripts/make-log-wrapper.sh.tpl
+
+    # protoc stuff, for GRPC services
+    {{- if eq .manifest.Type "GRPC" }}
     scripts/protoc-gen-go-grpc.sh:
         templatePath: scripts/protoc-gen-go-grpc.sh.tpl
     scripts/protoc-gen-go.sh:
         templatePath: scripts/protoc-gen-go.sh.tpl
     scripts/protoc.sh:
         templatePath: scripts/protoc.sh.tpl
+    {{- end }}
+
     scripts/shellcheck.sh:
         templatePath: scripts/shellcheck.sh.tpl
     scripts/shfmt.sh:

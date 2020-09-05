@@ -1,9 +1,9 @@
 # syntax=docker/dockerfile:1.0-experimental
-FROM golang:1.14-alpine as builder
+FROM golang:1.15-alpine as builder
 ARG VERSION
 WORKDIR /src
 
-RUN apk add --no-cache make bash
+RUN apk add --no-cache make bash git libc-dev gcc
 
 # Add go.mod and go.sum first to maximize caching
 COPY ./go.mod ./go.sum ./

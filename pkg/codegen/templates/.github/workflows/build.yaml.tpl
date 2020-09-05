@@ -1,12 +1,19 @@
 name: CI
-on: "push"
+on:
+  pull_request: {}
+  push:
+    branches:
+      - master
+      - main
 
 jobs:
   test:
     runs-on: ubuntu-latest
     container:
-      image: golang:1.14
+      image: golang:1.15-alpine
     steps:
+      - name: Download OS Dependencies
+        run: apk add --no-cache git make bash curl tar gcc libc-dev sudo
       - name: Checkout
         uses: actions/checkout@v2
       - name: Cache Go Dependencies
@@ -44,3 +51,11 @@ jobs:
         env:
           IMAGE_PUSH_SECRET: ${{ "{{" }} secrets.DOCKER_IMAGE_PUSH {{ "}}" }}
         run: .ci/docker-builder.sh
+      - name: Notify of Preview Image
+        if: github.event_name == 'pull_request' && env.PREVIEW_IMAGE != ''
+        uses: unsplash/comment-on-pr@master
+        env:
+          GITHUB_TOKEN: ${{ "{{" }} secrets.GITHUB_TOKEN {{ "}}" }}
+        with:
+          msg: "Preview image is available as: `${{ "{{" }} env.PREVIEW_IMAGE {{ "}}" }}`"
+          check_for_duplicate_msg: true

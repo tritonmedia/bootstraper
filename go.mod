@@ -8,7 +8,7 @@ require (
 	github.com/go-git/go-git/v5 v5.1.0
 	github.com/google/go-cmp v0.5.0 // indirect
 	github.com/pkg/errors v0.9.1
-	github.com/sirupsen/logrus v1.6.0
+	github.com/sirupsen/logrus v1.7.0
 	github.com/stretchr/testify v1.6.1 // indirect
 	github.com/urfave/cli/v2 v2.2.0
 	golang.org/x/sys v0.0.0-20200625212154-ddb9806d33ae // indirect

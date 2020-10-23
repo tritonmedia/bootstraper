@@ -11,7 +11,7 @@ require (
 	github.com/sirupsen/logrus v1.7.0
 	github.com/stretchr/testify v1.6.1 // indirect
 	github.com/urfave/cli/v2 v2.2.0
-	golang.org/x/tools v0.0.0-20201023150057-2f4fa188d925
+	golang.org/x/tools v0.0.0-20201023174141-c8cfbd0f21e6
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776
 )

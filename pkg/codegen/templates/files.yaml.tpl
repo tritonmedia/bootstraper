@@ -28,9 +28,6 @@ files:
     go.mod:
         templatePath: go.mod.tpl
         static: true
-    go.sum:
-        templatePath: go.sum.tpl
-        static: true
     {{- if eq .manifest.Type "JobProcessor" }}
     internal/{{ .manifest.Name }}/consumer.go:
         templatePath: internal/consumer/consumer.go.tpl

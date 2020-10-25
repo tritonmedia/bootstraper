@@ -22,13 +22,13 @@ fi
 
 # Run shellcheck on shell-scripts, only if installed.
 info "Running shellcheck"
-if ! git ls-files '*.sh' | xargs -n1 "$SHELLCHECKPATH"; then
+if ! git ls-files '*.sh' | xargs -n 30 "$SHELLCHECKPATH"; then
   error "shellcheck failed on some files"
   exit 1
 fi
 
 info "Running shfmt"
-if ! git ls-files '*.sh' | xargs -n1 "$SHELLFMTPATH" -d; then
+if ! git ls-files '*.sh' | xargs -n 30 "$SHELLFMTPATH" -d; then
   error "shfmt failed on some files"
   exit 1
 fi

@@ -26,8 +26,6 @@ linters-settings:
       - filepathJoin # why?
   gocyclo:
     min-complexity: 15
-  goimports:
-    local-prefixes: github.com/tritonmedia/{{ .manifest.Name }}
   golint:
     min-confidence: 0
   govet:

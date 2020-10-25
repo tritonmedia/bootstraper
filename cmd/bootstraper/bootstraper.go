@@ -25,7 +25,7 @@ func main() {
 	ctx := context.Background()
 	log := logrus.New().WithContext(ctx)
 
-	//nolint:gocritic
+	//nolint:gocritic importShadow
 	app := cli.App{
 		Version: "1.0.0",
 		Name:    "bootstraper",

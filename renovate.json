@@ -4,6 +4,6 @@
     "config:base"
   ],
   "rebaseWhen": "auto",
-  "semanticCommits": true,
+  "semanticCommits": "enabled",
   "automerge": true
 }

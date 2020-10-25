@@ -18,6 +18,12 @@ import (
 	///EndBlock(imports)	
 )
 
+///StartBlock(globalVars)
+{{- if .globalVars }}
+{{ .globalVars }}
+{{- end }}
+///EndBlock(globalVars)
+
 type GRPCServiceHandler struct {
 	log logrus.FieldLogger
 

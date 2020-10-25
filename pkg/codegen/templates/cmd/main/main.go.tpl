@@ -21,11 +21,36 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	log := logrus.New().WithContext(ctx)
 
+  //nolint:gocritic importShadow
 	app := cli.App{
 		Name:    "{{ .manifest.Name }}",
 		Version: app.Version,
+		Flags: []cli.Flag{
+			&cli.StringFlag{
+				Name: "log-format",
+				Usage: "set the formatter for logs",
+				EnvVars: []string{"LOG_FORMAT"},
+				Value: "JSON",
+			},
+		},
 	}
 	app.Action = func(c *cli.Context) error {
+		logFormat := c.String("log-format")
+		switch strings.ToLower(logFormat) {
+		case "json":
+			logrus.SetFormatter(&logrus.JSONFormatter{})
+		case "text":
+			logrus.SetFormatter(&logrus.TextFormatter{})
+		default:
+			return fmt.Errorf("unknown log format: %s", logFormat)
+		}
+
+		// update our logger's formatter, since we created before
+		// we set it
+		log.Logger.Formatter = logrus.StandardLogger().Formatter
+
+		// start the service runner, which handles context cancellation
+		// and threading
 		r := service.NewServiceRunner(ctx, []service.Service{
 			{{- if eq .manifest.Type "JobProcessor" }}
 			&{{ .manifest.Name }}.ConsumerService{},

@@ -10,6 +10,7 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/sirupsen/logrus v1.7.0
 	github.com/stretchr/testify v1.6.1 // indirect
+	github.com/tritonmedia/pkg v0.0.0-20200629230110-aed2f5d2dc17
 	github.com/urfave/cli/v2 v2.2.0
 	golang.org/x/tools v0.0.0-20201023174141-c8cfbd0f21e6
 	gopkg.in/yaml.v2 v2.3.0 // indirect

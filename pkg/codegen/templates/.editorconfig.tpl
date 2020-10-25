@@ -8,10 +8,6 @@ insert_final_newline = true
 [Makefile]
 indent_style = tab
 
-[*.{yml,yaml}]
-indent_style = space
-indent_size  = 2
-
-[*.{sh,bash}]
+[*.{yml,yaml,sh,bash,tpl}]
 indent_style = space
 indent_size  = 2

@@ -25,7 +25,7 @@ if [[ ! -e $binPath ]]; then
     # JIT download shellcheck
     curl --location --output "$tmp_dir/shellcheck.tar.xz" --silent \
       "https://github.com/koalaman/shellcheck/releases/download/v$SHELLCHECK_VERSION/shellcheck-v$SHELLCHECK_VERSION.$GOOS.$ARCH.tar.xz"
-    
+
     pushd "$tmp_dir" >/dev/null || exit 1
     tar xf shellcheck.tar.xz
     mv "shellcheck-v$SHELLCHECK_VERSION/shellcheck" "$binPath"

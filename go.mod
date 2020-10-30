@@ -12,7 +12,7 @@ require (
 	github.com/stretchr/testify v1.6.1 // indirect
 	github.com/tritonmedia/pkg v0.0.0-20200629230110-aed2f5d2dc17
 	github.com/urfave/cli/v2 v2.2.0
-	golang.org/x/tools v0.0.0-20201030010431-2feb2bb1ff51
+	golang.org/x/tools v0.0.0-20201030160639-589136c8afd9
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776
 )

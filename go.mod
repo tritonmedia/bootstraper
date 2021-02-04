@@ -3,7 +3,7 @@ module github.com/tritonmedia/bootstraper
 go 1.14
 
 require (
-	github.com/Masterminds/sprig/v3 v3.1.0
+	github.com/Masterminds/sprig/v3 v3.2.2
 	github.com/go-git/go-billy/v5 v5.0.0
 	github.com/go-git/go-git/v5 v5.2.0
 	github.com/google/go-cmp v0.5.0 // indirect

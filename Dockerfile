@@ -19,7 +19,7 @@ RUN --mount=type=cache,target=/go/pkg make dep
 # but also needed to use the package cache above
 RUN --mount=type=cache,target=/go-build-cache --mount=type=cache,target=/go/pkg make build APP_VERSION=${VERSION}
 
-FROM alpine:3.12
+FROM alpine:3.13
 ENTRYPOINT ["/usr/bin/bootstraper"]
 
 # hadolint ignore=DL3018
